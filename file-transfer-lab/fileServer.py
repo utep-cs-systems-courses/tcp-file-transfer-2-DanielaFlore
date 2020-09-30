@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Sep 27 19:13:54 2020
 
 @author: Daniela Flores
 
-TODO: write textfile on servers dir, implement fork()
+TODO:  implement fork(), add comments
 """
 
 #! /usr/bin/env python3
 
 # Echo server program
 
-import socket, sys, re
+import socket, sys, re, os
 from sockHelpers import sendAll
 
 sys.path.append("../lib")       # for params
@@ -44,10 +43,20 @@ fileName = conn.recv(1024).decode()
 print("filename is ", fileName)
 conf = "filename received and stored"
 sendAll(conn, conf.encode())
+path = os.getcwd()
+filesPath=path+'\\'+fileName
+print(filesPath)
+if(os.path.isfile(filesPath)):
+    print("file already exists in server....exiting")
+    conn.close()
+    sys.exit(0)
+f = open(fileName, "w")
 while 1:
     data = conn.recv(1024).decode()
+    f.write(data)
     if not data: break
     sendMsg = f"Echoing <{data}>" 
     #print(f"Received <{data}>, sending <{sendMsg}>")
     sendAll(conn, sendMsg.encode())
+f.close()
 conn.close()
