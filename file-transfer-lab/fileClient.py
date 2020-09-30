@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Sep 27 19:05:55 2020
-
-@author: Daniela Flores:)
+@author: Daniela Flores
     
 """
 #! /usr/bin/env python3
@@ -10,7 +8,7 @@ Created on Sun Sep 27 19:05:55 2020
 from sockHelpers import sendAll
 
 # Echo client program
-import socket, sys, re
+import socket, sys, re,os
 sys.path.append("../lib")       # for params
 import params
 
@@ -61,7 +59,6 @@ except FileNotFoundError:
 if s is None:
     print('could not open socket')
     sys.exit(1)
-
 
 print("sending file name: '%s'" % fileName)
 sendAll(s, fileName.encode())
