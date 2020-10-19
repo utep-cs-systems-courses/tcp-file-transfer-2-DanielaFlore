@@ -69,7 +69,7 @@ fExists = fsock.receive(debug)
 if fExists == b"file exists":
     print("file already exists...exiting")
     sys.exit(0)
-f = open(fileName, "w")
+#f = open(fileName, "w")
 print("*************sending file contents!*****************")
 
 for i in allLines:
