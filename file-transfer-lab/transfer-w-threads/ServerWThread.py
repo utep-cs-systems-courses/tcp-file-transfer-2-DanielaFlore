@@ -65,7 +65,7 @@ class Server(Thread):
                     closing = "end of file reached!"
                     #framedSend(sock, closing.encode(), debug)
                     self.fsock.send(closing.encode(), debug)
-                    #f.close()
+                    f.close()
                     self.fsock.close()
                     #break
                 f.write(payload)
