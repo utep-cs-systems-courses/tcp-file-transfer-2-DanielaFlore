@@ -46,7 +46,7 @@ class Server(Thread):
             self.fsock.send(conf.encode(), debug)
             path = os.getcwd()
             #/
-            filesPath=path+'\\'+fileName
+            filesPath=path+'/'+fileName
             print(filesPath)
             if(os.path.isfile(filesPath)):
                 print("file already exists in server....exiting")
