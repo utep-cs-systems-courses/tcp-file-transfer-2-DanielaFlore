@@ -2,7 +2,7 @@
 
 import sys
 sys.path.append("../lib")       # for params
-import re, socket, params, os
+import re, socket, params, os, threading
 
 switchesVarDefaults = (
     (('-l', '--listenPort') ,'listenPort', 50001),
@@ -24,9 +24,10 @@ lsock.bind(bindAddr)
 lsock.listen(5)
 print("listening on:", bindAddr)
 
-from threading import Thread;
+from threading import Thread, Lock;
 from encapFramedSock import EncapFramedSock
 
+lock = threading.Lock()
 class Server(Thread):
     def __init__(self, sockAddr):
         Thread.__init__(self)
@@ -35,7 +36,7 @@ class Server(Thread):
     def run(self):
         print("new thread handling connection from", self.addr)
         while True:
-            #payload = self.fsock.receive(debug)
+            lock.acquire()
             ###
             from framedSock import framedSend, framedReceive
             #################################################
@@ -66,8 +67,9 @@ class Server(Thread):
                     #framedSend(sock, closing.encode(), debug)
                     self.fsock.send(closing.encode(), debug)
                     f.close()
+                    lock.release()
                     self.fsock.close()
-                    #break
+                    break
                 f.write(payload)
         
                 if not payload:
